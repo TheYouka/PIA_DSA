@@ -11,7 +11,6 @@ int main() {
     char mapa[SIZE_MAP][SIZE_MAP];
 
     // Inicializar el mapa de calles con ceros
-    
     int calles[SIZE_MAP][SIZE_MAP];
     inicializar_calles(calles);
 
@@ -22,12 +21,20 @@ int main() {
     // Cargar los taxis desde el archivo
     cargar_taxis(taxis, "data/taxis.txt", &taxis_totales);
 
-       // Cargar el mapa desde el archivo e inicializar el mapa con .
+    // Cargar el mapa desde el archivo e inicializar el mapa con .
     cargar_mapa(mapa, calles, "data/mapa.txt");
+
+    // Inicializar cola para las solicitudes
+    Cola Solicitudes;
+    inicializar_cola(&Solicitudes);
+
+    // Cargar las solicitudes desde el archivo
+    cargar_solicitudes(&Solicitudes, "data/solicitudes.txt");
+
+
     
     do {
         opcion = mostrar_menu_principal();
-
         
         switch (opcion) {
             case 1:
@@ -74,6 +81,6 @@ int main() {
                 break;
         }
     } while (opcion != 7);
-    
+
     return 0;
 }

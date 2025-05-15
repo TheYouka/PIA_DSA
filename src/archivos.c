@@ -70,4 +70,34 @@ void cargar_taxis(Taxi *taxis, char *nombre_archivo,int *taxis_totales) {
 
     fclose(archivo);
     return;
-}
+};
+
+// Cargar las solicitudes desde el archivo
+void cargar_solicitudes(Cola *solicitudes, char *nombre_archivo) {
+    FILE *archivo = fopen(nombre_archivo, "r");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo %s\n", nombre_archivo);
+        return;
+    };
+
+    int x_origen, y_origen, x_destino, y_destino;
+    int id = 1;
+
+    // Leer coordenadas del archivo y cargar las solicitudes
+    while (fscanf(archivo, "%d %d %d %d", &x_origen, &y_origen, &x_destino, &y_destino) == 4 && id <= MAX_SOLICITUDES) {
+        Solicitud solicitud;
+        solicitud.x_origen = x_origen;
+        solicitud.y_origen = y_origen;
+        solicitud.x_destino = x_destino;
+        solicitud.y_destino = y_destino;
+        solicitud.id = id;
+        apilar(solicitudes, solicitud);
+        id++;
+    };
+
+    fclose(archivo);
+    return;
+};
+
+
+

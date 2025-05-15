@@ -7,12 +7,27 @@
 
 int main() {
     int opcion;
+    // Inicializar el mapa con espacios
+    char mapa[SIZE_MAP][SIZE_MAP];
 
-    int mapa[SIZE_MAP][SIZE_MAP];
-    cargar_mapa(mapa, "data/mapa.txt");
+    // Inicializar el mapa de calles con ceros
+    
+    int calles[SIZE_MAP][SIZE_MAP];
+    inicializar_calles(calles);
+
+    // Inicializar array para rastrear los taxis
+    Taxi taxis[MAX_TAXIS];
+    int taxis_totales = 0;
+
+    // Cargar los taxis desde el archivo
+    cargar_taxis(taxis, "data/taxis.txt", &taxis_totales);
+
+       // Cargar el mapa desde el archivo e inicializar el mapa con .
+    cargar_mapa(mapa, calles, "data/mapa.txt");
     
     do {
         opcion = mostrar_menu_principal();
+
         
         switch (opcion) {
             case 1:

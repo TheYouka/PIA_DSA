@@ -51,10 +51,10 @@ int mostrar_menu_principal() {
     return opcion;
 };
 
-int imprimir_mapa(int mapa[SIZE_MAP][SIZE_MAP]) {
+int imprimir_mapa(char mapa[SIZE_MAP][SIZE_MAP]) {
     for (int i = 0; i < SIZE_MAP; i++) {
         for (int j = 0; j < SIZE_MAP; j++) {
-            printf("%d ", mapa[i][j]);
+            printf("%c ", mapa[i][j]);
         }
         printf("\n");
     }

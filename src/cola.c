@@ -109,8 +109,8 @@ void mostrar_cola(Cola *cola) {
     for (int i = 0; i < cola->cantidad; i++) {
         Solicitud solicitud = cola->elementos[indice];
         printf("Solicitud %d:\n", solicitud.id);
-        printf("  Origen: Nodo %d\n", solicitud.nodo_origen);
-        printf("  Destino: Nodo %d\n\n", solicitud.nodo_destino);
+        printf("  Origen: X : %d  Y: %d\n", solicitud.x_origen, solicitud.y_origen);
+        printf("  Destino: X : %d  Y : %d \n\n", solicitud.x_destino, solicitud.y_destino);
         
         // Avanza de forma circular
         indice = (indice + 1) % MAX_SOLICITUDES;

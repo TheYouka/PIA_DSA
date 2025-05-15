@@ -16,8 +16,10 @@ typedef struct {
  * @brief Estructura que representa una solicitud de viaje
  */
 typedef struct {
-    int nodo_origen;    // Nodo de origen del pasajero
-    int nodo_destino;   // Nodo de destino del pasajero
+    int x_origen;    // Nodo de origen del pasajero
+    int y_origen;   // Nodo de destino del pasajero
+    int x_destino;   // Nodo de destino del pasajero
+    int y_destino;   // Nodo de destino del pasajero
     int id;             // Identificador único de la solicitud
 } Solicitud;
 

@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "cola.h": "c"
+        "cola.h": "c",
+        "archivos.h": "c",
+        "visualizacion.h": "c",
+        "constantes.h": "c",
+        "stdio.h": "c"
     }
 }

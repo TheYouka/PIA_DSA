@@ -9,6 +9,6 @@
  */
 int mostrar_menu_principal();
 
-int imprimir_mapa(int mapa[SIZE_MAP][SIZE_MAP]);
+int imprimir_mapa(char mapa[SIZE_MAP][SIZE_MAP]);
 
 #endif /* VISUALIZACION_H */

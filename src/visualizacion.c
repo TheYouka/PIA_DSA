@@ -28,6 +28,7 @@ int mostrar_menu_principal() {
         printf("║  \033[1;37m4.\033[0m\033[1;32m Ver Taxis\033[1;33m                                 ║\n");
         printf("║  \033[1;37m5.\033[0m\033[1;32m Ver Mapa\033[1;33m                                  ║\n");
         printf("║  \033[1;37m6.\033[0m\033[1;32m Ver Solicitudes\033[1;33m                           ║\n");
+        printf("║  \033[1;37m7.\033[0m\033[1;32m Imprimir Mapa\033[1;33m                             ║\n");
         printf("║  \033[1;37m7.\033[0m\033[1;31m Salir\033[1;33m                                     ║\n");
         printf("║                                                  ║\n");
         printf("╚══════════════════════════════════════════════════╝\n");
@@ -48,4 +49,14 @@ int mostrar_menu_principal() {
     }
     
     return opcion;
+};
+
+int imprimir_mapa(int mapa[SIZE_MAP][SIZE_MAP]) {
+    for (int i = 0; i < SIZE_MAP; i++) {
+        for (int j = 0; j < SIZE_MAP; j++) {
+            printf("%d ", mapa[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
 }

@@ -18,8 +18,17 @@ int main() {
     Taxi taxis[MAX_TAXIS];
     int taxis_totales = 0;
 
+    // Array que guarda el id del taxi en cualquiera posicion del mapa
+    int mapa_taxis[SIZE_MAP][SIZE_MAP];
+    for (int i = 0; i < SIZE_MAP; i++) {
+        for (int j = 0; j < SIZE_MAP; j++) {
+            mapa_taxis[i][j] = -1;
+        };
+    };
+
+    
     // Cargar los taxis desde el archivo
-    cargar_taxis(taxis, "data/taxis.txt", &taxis_totales);
+    cargar_taxis(taxis, mapa_taxis, "data/taxis.txt", &taxis_totales);
 
     // Cargar el mapa desde el archivo e inicializar el mapa con .
     cargar_mapa(mapa, calles, "data/mapa.txt");

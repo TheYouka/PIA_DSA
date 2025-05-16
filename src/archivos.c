@@ -41,7 +41,7 @@ void inicializar_calles(int calles[SIZE_MAP][SIZE_MAP]) {
 
 
 // Cargar los taxis desde el archivo
-void cargar_taxis(Taxi *taxis, char *nombre_archivo,int *taxis_totales) {
+void cargar_taxis(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char *nombre_archivo,int *taxis_totales) {
     FILE *archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
         printf("Error al abrir el archivo %s\n", nombre_archivo);
@@ -66,6 +66,9 @@ void cargar_taxis(Taxi *taxis, char *nombre_archivo,int *taxis_totales) {
         taxis[id-1].y = y;
         taxis[id-1].estado = 0; // 0 indica taxi libre
         id++;
+
+        // Guardar el id del taxi en la posicion del mapa
+        mapa_taxis[x][y] = id-1;
     };
 
     fclose(archivo);

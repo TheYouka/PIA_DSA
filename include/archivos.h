@@ -10,7 +10,7 @@ void cargar_solicitudes(Cola *solicitudes, char *nombre_archivo);
 
 void inicializar_calles(int calles[SIZE_MAP][SIZE_MAP]);
 
-void cargar_taxis(Taxi *taxis, char *nombre_archivo, int *taxis_totales);
+void cargar_taxis(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char *nombre_archivo, int *taxis_totales);
 
 
 #endif

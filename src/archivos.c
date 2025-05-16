@@ -1,7 +1,7 @@
 #include "../include/archivos.h"
 #include <stdio.h>
 
-void cargar_mapa(char mapa[SIZE_MAP][SIZE_MAP], int calles[SIZE_MAP][SIZE_MAP], char *nombre_archivo) {
+void cargar_mapa(char mapa[SIZE_MAP][SIZE_MAP], int nodos_ids[MAX_NODOS], int calles[MAX_NODOS][MAX_NODOS], char *nombre_archivo) {
     FILE *archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
         printf("Error al abrir el archivo %s\n", nombre_archivo);
@@ -15,14 +15,34 @@ void cargar_mapa(char mapa[SIZE_MAP][SIZE_MAP], int calles[SIZE_MAP][SIZE_MAP], 
         }
     }
 
-    int x1, y1, x2, y2, peso;
+    int x1, y1, x2, y2, peso, id;
     
     // Leer entradas del archivo y guardar en el mapa y calles
     while (fscanf(archivo, "%d %d %d %d %d", &x1, &y1, &x2, &y2, &peso) == 5) {
-        calles[x1][y1] = peso;
-        calles[x2][y2] = peso;
-        mapa[x1][y1] = 'X';
-        mapa[x2][y2] = 'X';
+        int id_1 = -1, id_2 = -1;
+        int pos1 = y1 * SIZE_MAP + x1;
+        int pos2 = y2 * SIZE_MAP + x2;
+
+        // Buscar los IDs correspondientes a las posiciones en nodos_ids
+        for (int i = 0; i < MAX_NODOS; i++) {
+            if (nodos_ids[i] == pos1) {
+                id_1 = i;
+            }
+            if (nodos_ids[i] == pos2) {
+                id_2 = i;
+            }
+            if (id_1 != -1 && id_2 != -1) {
+                break;
+            }
+        }
+
+        // Si se encontraron ambos IDs, crear las aristas
+        if (id_1 != -1 && id_2 != -1) {
+            calles[id_1][id_2] = peso;
+            calles[id_2][id_1] = peso; // Grafo no dirigido
+            mapa[y1][x1] = 'X';
+            mapa[y2][x2] = 'X';
+        }
     }
     fclose(archivo);
 
@@ -31,8 +51,8 @@ void cargar_mapa(char mapa[SIZE_MAP][SIZE_MAP], int calles[SIZE_MAP][SIZE_MAP], 
 
 
 // Inicializar el mapa de calles con ceros
-void inicializar_calles(int calles[SIZE_MAP][SIZE_MAP]) {
-    for(int i = 0; i < SIZE_MAP; i++) {
+void inicializar_calles(int calles[MAX_NODOS][MAX_NODOS]) {
+    for(int i = 0; i < MAX_NODOS; i++) {
         for(int j = 0; j < SIZE_MAP; j++) {
             calles[i][j] = 0;
         }
@@ -104,3 +124,27 @@ void cargar_solicitudes(Cola *solicitudes, char *nombre_archivo) {
 
 
 
+
+void cargar_nodos(int nodos_ids[MAX_NODOS], char *nombre_archivo) {
+    FILE *archivo = fopen(nombre_archivo, "r");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo %s\n", nombre_archivo);
+        return;
+    }
+
+    // Inicializar el array de nodos
+    for(int i = 0; i < MAX_NODOS; i++) {
+        nodos_ids[i] = -1;
+    }
+
+    int x, y;
+    int id = 0;
+
+    while (fscanf(archivo, "%d %d", &x, &y) == 2 && id < MAX_NODOS) {
+        nodos_ids[id] = y * SIZE_MAP + x;
+        id++;
+    }
+
+    fclose(archivo);
+    return;
+};

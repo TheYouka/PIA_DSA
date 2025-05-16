@@ -36,7 +36,7 @@ static int minima_distancia(int distancias[MAX_NODOS], int visitado[MAX_NODOS], 
  * @param distancias Array donde se almacenarán las distancias más cortas desde el origen
  * @param predecesores Array donde se almacenarán los nodos predecesores para reconstruir la ruta
  */
-void dijkstra(int grafo[MAX_NODOS][MAX_NODOS], int num_nodos, int x_origen, int y_origen, int distancias[MAX_NODOS], int predecesores[MAX_NODOS]) {
+void dijkstra(int grafo[MAX_NODOS][MAX_NODOS], int num_nodos, int nodos_ids[MAX_NODOS], int x_origen, int y_origen, int distancias[MAX_NODOS], int predecesores[MAX_NODOS]) {
     
     int origen = coordenadas_a_nodo(x_origen, y_origen);
 
@@ -49,7 +49,13 @@ void dijkstra(int grafo[MAX_NODOS][MAX_NODOS], int num_nodos, int x_origen, int 
     }
     
     // La distancia desde el origen a sí mismo es 0
-    distancias[origen] = 0;
+    // Buscar la posición del nodo origen en nodos_ids
+    for (int i = 0; i < MAX_NODOS; i++) {
+        if (nodos_ids[i] == origen) {
+            distancias[i] = 0;
+            break;
+        }
+    }
     
     // Encontrar el camino más corto para todos los nodos
     //
@@ -64,11 +70,14 @@ void dijkstra(int grafo[MAX_NODOS][MAX_NODOS], int num_nodos, int x_origen, int 
         visitado[u] = 1;
         
         // Actualizar las distancias de los nodos adyacentes al nodo seleccionado
-        for (int v = 0; v < num_nodos; v++) {
+        for (int v = 0; v < MAX_NODOS; v++) {
             // Actualizar distancia[v] solo si:
             // 1. No está visitado
             // 2. Hay una arista desde u a v
             // 3. El peso total del camino desde origen a v a través de u es menor que el valor actual de distancia[v]
+
+            if(nodos_ids[v] == -1) break;
+
             if (!visitado[v] && 
                 grafo[u][v] && 
                 distancias[u] != INFINITO && 

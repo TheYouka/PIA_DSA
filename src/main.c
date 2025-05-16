@@ -10,8 +10,8 @@ int main() {
     // Inicializar el mapa con espacios
     char mapa[SIZE_MAP][SIZE_MAP];
 
-    // Inicializar el mapa de calles con ceros
-    int calles[SIZE_MAP][SIZE_MAP];
+    // Inicializar el mapa de calles con ceros, para que cada posicion i,j guarde la distancia entre el nodo_ID i y el nodo_ID j
+    int calles[MAX_NODOS][MAX_NODOS];
     inicializar_calles(calles);
 
     // Inicializar array para rastrear los taxis
@@ -26,12 +26,17 @@ int main() {
         };
     };
 
+    // Array que dado el id del nodo guarda su ubicacion en el mapa de forma absoluta, y*SIZE_MAP + x
+    int nodos_ids[MAX_NODOS];
+
     
+    cargar_nodos(nodos_ids, "data/nodos.txt");
+
     // Cargar los taxis desde el archivo
     cargar_taxis(taxis, mapa_taxis, "data/taxis.txt", &taxis_totales);
 
     // Cargar el mapa desde el archivo e inicializar el mapa con .
-    cargar_mapa(mapa, calles, "data/mapa.txt");
+    cargar_mapa(mapa, nodos_ids, calles, "data/mapa.txt");
 
     // Inicializar cola para las solicitudes
     Cola Solicitudes;
@@ -39,6 +44,24 @@ int main() {
 
     // Cargar las solicitudes desde el archivo
     cargar_solicitudes(&Solicitudes, "data/solicitudes.txt");
+
+    
+   
+    
+
+    // Contador para la última posición agregada
+    int ultima_pos = 0;
+
+    // Iterar sobre el mapa buscando 'X'
+    for (int y = 0; y < SIZE_MAP; y++) {
+        for (int x = 0; x < SIZE_MAP; x++) {
+            if (mapa[y][x] == 'X') {
+                // Agregar forma absoluta de la coordenada
+                nodos_ids[ultima_pos] = y * SIZE_MAP + x;
+                ultima_pos++;
+            }
+        }
+    }
 
 
     

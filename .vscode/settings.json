@@ -4,6 +4,7 @@
         "archivos.h": "c",
         "visualizacion.h": "c",
         "constantes.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "simulacion.h": "c"
     }
 }

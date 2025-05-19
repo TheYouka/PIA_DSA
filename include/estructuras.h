@@ -8,7 +8,10 @@ typedef struct {
     int id;
     int x;
     int y;
-    int estado;
+    int estado;      // 0: disponible, 1: ocupado
+    int tiempo;      // Tiempo restante hasta que el taxi complete su viaje
+    int x_destino;   // Coordenada x de destino cuando está ocupado
+    int y_destino;   // Coordenada y de destino cuando está ocupado
 } Taxi;
 
 

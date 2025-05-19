@@ -74,6 +74,10 @@ void cargar_taxis(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char *nombre_
         taxis[i].x = -1;
         taxis[i].y = -1;
         taxis[i].estado = -1;
+        taxis[i].tiempo = -1;
+        taxis[i].x_destino = -1;
+        taxis[i].y_destino = -1;
+        
     };
 
     int x, y;

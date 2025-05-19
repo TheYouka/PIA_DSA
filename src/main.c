@@ -46,25 +46,6 @@ int main() {
     cargar_solicitudes(&Solicitudes, "data/solicitudes.txt");
 
     
-   
-    
-
-    // Contador para la última posición agregada
-    int ultima_pos = 0;
-
-    // Iterar sobre el mapa buscando 'X'
-    for (int y = 0; y < SIZE_MAP; y++) {
-        for (int x = 0; x < SIZE_MAP; x++) {
-            if (mapa[y][x] == 'X') {
-                // Agregar forma absoluta de la coordenada
-                nodos_ids[ultima_pos] = y * SIZE_MAP + x;
-                ultima_pos++;
-            }
-        }
-    }
-
-
-    
     do {
         opcion = mostrar_menu_principal();
         

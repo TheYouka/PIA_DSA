@@ -1,64 +1,68 @@
 #ifndef DIJKSTRA_H
 #define DIJKSTRA_H
 
+#include "constantes.h"
 #include "estructuras.h"
 
 /**
- * @brief Ejecuta el algoritmo de Dijkstra para encontrar la ruta más corta desde un nodo origen
- * @param grafo Matriz de adyacencia que representa el mapa
- * @param num_nodos Número total de nodos en el grafo
- * @param origen Nodo de origen
- * @param distancias Array donde se almacenarán las distancias más cortas desde el origen
- * @param predecesores Array donde se almacenarán los nodos predecesores para reconstruir la ruta
+ * @brief Convierte coordenadas (x,y) a un valor absoluto
+ * @param x Coordenada x
+ * @param y Coordenada y
+ * @return Valor absoluto calculado como y * SIZE_MAP + x
  */
-void dijkstra(int grafo[MAX_NODOS][MAX_NODOS], int num_nodos, int origen, int distancias[MAX_NODOS], int predecesores[MAX_NODOS]);
+int coords_to_absolute(int x, int y);
 
 /**
- * @brief Encuentra el taxi más cercano al nodo de origen del pasajero
- * @param grafo Matriz de adyacencia que representa el mapa
- * @param num_nodos Número total de nodos en el grafo
- * @param nodo_origen Nodo de origen del pasajero
- * @param taxis Array de taxis disponibles
- * @param num_taxis Número de taxis disponibles
- * @param taxi_asignado Puntero al índice donde se almacenará el taxi asignado
- * @param distancia_taxi Puntero donde se almacenará la distancia del taxi al pasajero
- * @param ruta_taxi Array donde se almacenará la ruta del taxi al pasajero
- * @param longitud_ruta Puntero donde se almacenará la longitud de la ruta
- * @return 1 si se encontró un taxi, 0 en caso contrario
+ * @brief Convierte un valor absoluto a coordenadas (x,y)
+ * @param absolute Valor absoluto
+ * @param x Puntero donde se almacenará la coordenada x
+ * @param y Puntero donde se almacenará la coordenada y
  */
-int encontrar_taxi_cercano(int grafo[MAX_NODOS][MAX_NODOS], int num_nodos, int nodo_origen, 
-                          Taxi taxis[], int num_taxis, int *taxi_asignado, 
-                          int *distancia_taxi, int ruta_taxi[MAX_NODOS], int *longitud_ruta);
+void absolute_to_coords(int absolute, int *x, int *y);
 
 /**
- * @brief Calcula la ruta entre dos nodos usando el algoritmo de Dijkstra
- * @param grafo Matriz de adyacencia que representa el mapa
- * @param num_nodos Número total de nodos en el grafo
- * @param origen Nodo de origen
- * @param destino Nodo de destino
- * @param ruta Array donde se almacenará la ruta calculada
- * @param longitud_ruta Puntero donde se almacenará la longitud de la ruta
- * @return Distancia total de la ruta, o -1 si no hay camino
+ * @brief Busca el ID de nodo en el arreglo nodos_ids que corresponde a las coordenadas dadas
+ * @param nodos_ids Arreglo de nodos con valores absolutos
+ * @param x Coordenada x
+ * @param y Coordenada y
+ * @return ID del nodo si existe, -1 si no existe
  */
-int calcular_ruta(int grafo[MAX_NODOS][MAX_NODOS], int num_nodos, int origen, int destino, 
-                 int ruta[MAX_NODOS], int *longitud_ruta);
+int buscar_id_nodo(int nodos_ids[MAX_NODOS], int x, int y);
 
 /**
- * @brief Convierte coordenadas (x,y) a un índice de nodo
- * @param x Coordenada X
- * @param y Coordenada Y
- * @param ancho Ancho del mapa (número de columnas)
- * @return Índice del nodo correspondiente
+ * @brief Implementación del algoritmo de Dijkstra
+ * @param calles Matriz de adyacencia del grafo que representa las calles
+ * @param inicio ID del nodo de inicio
+ * @param distancias Arreglo donde se almacenarán las distancias mínimas
+ * @param predecesores Arreglo donde se almacenarán los predecesores
  */
-int coordenadas_a_nodo(int x, int y, int ancho);
+void dijkstra(int calles[MAX_NODOS][MAX_NODOS], int inicio, int distancias[MAX_NODOS], int predecesores[MAX_NODOS]);
 
 /**
- * @brief Convierte un índice de nodo a coordenadas (x,y)
- * @param nodo Índice del nodo
- * @param ancho Ancho del mapa (número de columnas)
- * @param x Puntero donde se almacenará la coordenada X
- * @param y Puntero donde se almacenará la coordenada Y
+ * @brief Encuentra el taxi disponible más cercano a las coordenadas dadas
+ * @param taxis Arreglo de taxis
+ * @param nodos_ids Arreglo de nodos con valores absolutos
+ * @param calles Matriz de adyacencia del grafo
+ * @param x_origen Coordenada x de origen
+ * @param y_origen Coordenada y de origen
+ * @return ID del taxi más cercano, -1 si no hay taxis disponibles
  */
-void nodo_a_coordenadas(int nodo, int ancho, int *x, int *y);
+int encontrar_taxi_cercano(Taxi taxis[MAX_TAXIS], int nodos_ids[MAX_NODOS], int calles[MAX_NODOS][MAX_NODOS], int x_origen, int y_origen);
 
-#endif /* DIJKSTRA_H */
+/**
+ * @brief Obtiene la ruta desde un origen hasta un destino usando Dijkstra
+ * @param calles Matriz de adyacencia del grafo
+ * @param nodos_ids Arreglo de nodos con valores absolutos
+ * @param x_origen Coordenada x de origen
+ * @param y_origen Coordenada y de origen
+ * @param x_destino Coordenada x de destino
+ * @param y_destino Coordenada y de destino
+ * @param ruta Arreglo donde se almacenará la ruta (IDs de nodos)
+ * @param longitud Puntero donde se almacenará la longitud de la ruta
+ * @return Distancia total de la ruta, -1 si no existe ruta
+ */
+int obtener_ruta(int calles[MAX_NODOS][MAX_NODOS], int nodos_ids[MAX_NODOS], 
+                int x_origen, int y_origen, int x_destino, int y_destino, 
+                int ruta[MAX_NODOS], int *longitud);
+
+#endif /* DIJKSTRA_H */    

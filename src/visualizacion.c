@@ -9,7 +9,7 @@
 int mostrar_menu_principal() {
     int opcion = 0;
     
-    while (opcion < 1 || opcion > 7) {
+    while (opcion < 1 || opcion > 8) {
         // Limpiar pantalla
         #ifdef _WIN32
             system("cls");
@@ -29,19 +29,19 @@ int mostrar_menu_principal() {
         printf("║  \033[1;37m5.\033[0m\033[1;32m Ver Mapa\033[1;33m                                  ║\n");
         printf("║  \033[1;37m6.\033[0m\033[1;32m Ver Solicitudes\033[1;33m                           ║\n");
         printf("║  \033[1;37m7.\033[0m\033[1;32m Imprimir Mapa\033[1;33m                             ║\n");
-        printf("║  \033[1;37m7.\033[0m\033[1;31m Salir\033[1;33m                                     ║\n");
+        printf("║  \033[1;37m8.\033[0m\033[1;31m Salir\033[1;33m                                     ║\n");
         printf("║                                                  ║\n");
         printf("╚══════════════════════════════════════════════════╝\n");
         printf("\033[0m"); // Resetear color
         
-        printf("\n\033[1;36mSeleccione una opción (1-7): \033[0m");
+        printf("\n\033[1;36mSeleccione una opción (1-8): \033[0m");
         if (scanf("%d", &opcion) != 1) {
             // Limpiar el buffer de entrada en caso de entrada no válida
             while (getchar() != '\n');
             opcion = 0; // Forzar repetición del bucle
         }
         
-        if (opcion < 1 || opcion > 7) {
+        if (opcion < 1 || opcion > 8) {
             printf("\n\033[1;31m[ERROR] Opción inválida. Presione Enter para continuar...\033[0m");
             getchar(); // Capturar el Enter después del número
             getchar(); // Esperar otro Enter para continuar

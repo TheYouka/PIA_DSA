@@ -1,11 +1,15 @@
 #include "../include/archivos.h"
 #include <stdio.h>
+#include <stdlib.h>
+
+
 
 void cargar_mapa(char mapa[SIZE_MAP][SIZE_MAP], int nodos_ids[MAX_NODOS], int calles[MAX_NODOS][MAX_NODOS], char *nombre_archivo) {
     FILE *archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
         printf("Error al abrir el archivo %s\n", nombre_archivo);
-        return;
+        printf("Saliendo del programa...\n");
+        exit(1);
     }
 
     // Inicializar el mapa con ceros
@@ -65,7 +69,8 @@ void cargar_taxis(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char *nombre_
     FILE *archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
         printf("Error al abrir el archivo %s\n", nombre_archivo);
-        return;
+        printf("Saliendo del programa...\n");
+        exit(1);
     }
 
     // Inicializar el array de taxis
@@ -101,7 +106,8 @@ void cargar_solicitudes(Cola *solicitudes, char *nombre_archivo) {
     FILE *archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
         printf("Error al abrir el archivo %s\n", nombre_archivo);
-        return;
+        printf("Saliendo del programa...\n");
+        exit(1);
     };
 
     int x_origen, y_origen, x_destino, y_destino;
@@ -127,6 +133,8 @@ void cargar_nodos(int nodos_ids[MAX_NODOS], char *nombre_archivo) {
     FILE *archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
         printf("Error al abrir el archivo %s\n", nombre_archivo);
+        printf("Saliendo del programa...\n");
+        exit(1);
         return;
     }
 
@@ -141,7 +149,7 @@ void cargar_nodos(int nodos_ids[MAX_NODOS], char *nombre_archivo) {
     while (fscanf(archivo, "%d %d", &x, &y) == 2 && id < MAX_NODOS) {
         nodos_ids[id] = y * SIZE_MAP + x;
         id++;
-    }
+    };
 
     fclose(archivo);
     return;

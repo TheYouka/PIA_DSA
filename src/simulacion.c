@@ -60,6 +60,10 @@ int procesar_solicitud(Taxi taxis[MAX_TAXIS], int nodos_ids[MAX_NODOS], int call
     taxis[indice_taxi].y_destino = solicitud.y_destino;
     
     printf("Tiempo total del viaje: %d unidades\n", tiempo_total);
+
+    // Imprimir la distancia de la ruta del taxi al pasajero y la distancia del pasajero al destino
+    printf("Distancia del taxi al pasajero: %d\n", distancia_taxi_pasajero);
+    printf("Distancia del pasajero al destino: %d\n", distancia_pasajero_destino);
     printf("El taxi estará ocupado durante %d etapas.\n", tiempo_total);
     
     return 1;

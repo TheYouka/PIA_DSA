@@ -74,10 +74,6 @@ void cargar_taxis(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char *nombre_
         taxis[i].x = -1;
         taxis[i].y = -1;
         taxis[i].estado = -1;
-        taxis[i].tiempo = -1;
-        taxis[i].x_destino = -1;
-        taxis[i].y_destino = -1;
-        
     };
 
     int x, y;
@@ -96,6 +92,7 @@ void cargar_taxis(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char *nombre_
     };
 
     fclose(archivo);
+    *taxis_totales = id - 1;
     return;
 };
 
@@ -126,9 +123,6 @@ void cargar_solicitudes(Cola *solicitudes, char *nombre_archivo) {
     return;
 };
 
-
-
-
 void cargar_nodos(int nodos_ids[MAX_NODOS], char *nombre_archivo) {
     FILE *archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
@@ -152,3 +146,85 @@ void cargar_nodos(int nodos_ids[MAX_NODOS], char *nombre_archivo) {
     fclose(archivo);
     return;
 };
+
+/**
+ * Agrega un nuevo taxi al sistema
+ */
+int agregar_taxi(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char mapa[SIZE_MAP][SIZE_MAP], int *taxis_totales) {
+    // Verificar si hay espacio para más taxis
+    if (*taxis_totales >= MAX_TAXIS) {
+        printf("Error: No se pueden agregar más taxis. Máximo alcanzado (%d/%d).\n", *taxis_totales, MAX_TAXIS);
+        return 0;
+    }
+    
+    int x, y;
+    
+    printf("\n===== Agregar Nuevo Taxi =====\n");
+    printf("Ingrese las coordenadas (x,y) para el nuevo taxi.\n");
+    
+    // Solicitar y validar coordenada x
+    do {
+        printf("Coordenada X (0-%d): ", SIZE_MAP - 1);
+        if (scanf("%d", &x) != 1) {
+            // Limpiar el buffer de entrada si no se ingresó un número
+            while (getchar() != '\n');
+            printf("Error: Ingrese un número válido.\n");
+            x = -1;
+            continue;
+        }
+        
+        if (x < 0 || x >= SIZE_MAP) {
+            printf("Error: La coordenada X debe estar entre 0 y %d.\n", SIZE_MAP - 1);
+        }
+    } while (x < 0 || x >= SIZE_MAP);
+    
+    // Solicitar y validar coordenada y
+    do {
+        printf("Coordenada Y (0-%d): ", SIZE_MAP - 1);
+        if (scanf("%d", &y) != 1) {
+            // Limpiar el buffer de entrada si no se ingresó un número
+            while (getchar() != '\n');
+            printf("Error: Ingrese un número válido.\n");
+            y = -1;
+            continue;
+        }
+        
+        if (y < 0 || y >= SIZE_MAP) {
+            printf("Error: La coordenada Y debe estar entre 0 y %d.\n", SIZE_MAP - 1);
+        }
+    } while (y < 0 || y >= SIZE_MAP);
+    
+    // Verificar que la posición no esté ocupada por otro taxi
+    if (mapa_taxis[x][y] != -1) {
+        printf("Error: Ya hay un taxi en la posición (%d, %d).\n", x, y);
+        return 0;
+    }
+    
+    // Verificar que la posición sea válida en el mapa (debe ser un nodo)
+    if (mapa[y][x] != 'X') {
+        printf("Error: La posición (%d, %d) no es un nodo válido en el mapa.\n", x, y);
+        printf("El taxi debe colocarse en un nodo (marcado con 'X' en el mapa).\n");
+        return 0;
+    }
+    
+    // Crear el nuevo taxi
+    int nuevo_id = *taxis_totales + 1;
+    taxis[*taxis_totales].id = nuevo_id;
+    taxis[*taxis_totales].x = x;
+    taxis[*taxis_totales].y = y;
+    taxis[*taxis_totales].estado = 0; // Disponible
+    taxis[*taxis_totales].tiempo = 0;
+    taxis[*taxis_totales].x_destino = 0;
+    taxis[*taxis_totales].y_destino = 0;
+    
+    // Actualizar el mapa de taxis
+    mapa_taxis[x][y] = nuevo_id - 1; // El índice en el arreglo es id-1
+    
+    // Incrementar el contador de taxis
+    (*taxis_totales)++;
+    
+    printf("Taxi #%d agregado correctamente en la posición (%d, %d).\n", nuevo_id, x, y);
+    printf("Total de taxis: %d/%d\n", *taxis_totales, MAX_TAXIS);
+    
+    return 1;
+}

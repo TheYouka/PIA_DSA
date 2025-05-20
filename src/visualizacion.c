@@ -19,17 +19,17 @@ int mostrar_menu_principal() {
         
         printf("\033[1;33m"); // Texto amarillo brillante
         printf("╔══════════════════════════════════════════════════╗\n");
-        printf("║              \033[1;36mMINI-UBER SIMULATION\033[1;33m               ║\n");
+        printf("║              \033[1;36mMINI-UBER SIMULATION\033[1;33m                ║\n");
         printf("╠══════════════════════════════════════════════════╣\n");
         printf("║                                                  ║\n");
-        printf("║  \033[1;37m1.\033[0m\033[1;32m Iniciar Simulación\033[1;33m                        ║\n");
-        printf("║  \033[1;37m2.\033[0m\033[1;32m Agregar Taxis\033[1;33m                             ║\n");
-        printf("║  \033[1;37m3.\033[0m\033[1;32m Agregar Solicitudes\033[1;33m                       ║\n");
-        printf("║  \033[1;37m4.\033[0m\033[1;32m Ver Taxis\033[1;33m                                 ║\n");
-        printf("║  \033[1;37m5.\033[0m\033[1;32m Ver Mapa\033[1;33m                                  ║\n");
-        printf("║  \033[1;37m6.\033[0m\033[1;32m Ver Solicitudes\033[1;33m                           ║\n");
-        printf("║  \033[1;37m7.\033[0m\033[1;32m Imprimir Mapa\033[1;33m                             ║\n");
-        printf("║  \033[1;37m8.\033[0m\033[1;31m Salir\033[1;33m                                     ║\n");
+        printf("║  \033[1;37m1.\033[0m\033[1;32m Iniciar Simulación\033[1;33m                           ║\n");
+        printf("║  \033[1;37m2.\033[0m\033[1;32m Agregar Taxis\033[1;33m                                ║\n");
+        printf("║  \033[1;37m3.\033[0m\033[1;32m Agregar Solicitudes\033[1;33m                          ║\n");
+        printf("║  \033[1;37m4.\033[0m\033[1;32m Ver Taxis\033[1;33m                                    ║\n");
+        printf("║  \033[1;37m5.\033[0m\033[1;32m Ver Mapa\033[1;33m                                     ║\n");
+        printf("║  \033[1;37m6.\033[0m\033[1;32m Ver Solicitudes\033[1;33m                              ║\n");
+        printf("║  \033[1;37m7.\033[0m\033[1;32m Imprimir Mapa\033[1;33m                                ║\n");
+        printf("║  \033[1;37m8.\033[0m\033[1;31m Salir\033[1;33m                                        ║\n");
         printf("║                                                  ║\n");
         printf("╚══════════════════════════════════════════════════╝\n");
         printf("\033[0m"); // Resetear color

@@ -70,7 +70,15 @@ int main() {
                 
             case 2:
                 printf("\nAgregar taxis...\n");
-                printf("Presione Enter para continuar...");
+                
+                // Mostrar el mapa para que el usuario vea los nodos disponibles
+                printf("Mostrando mapa (los nodos están marcados con 'X'):\n");
+                imprimir_mapa(mapa);
+                
+                // Intentar agregar un nuevo taxi
+                agregar_taxi(taxis, mapa_taxis, mapa, &taxis_totales);
+                
+                printf("\nPresione Enter para continuar...");
                 getchar();
                 getchar();
                 break;

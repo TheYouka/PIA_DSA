@@ -85,6 +85,7 @@ int main() {
                 
             case 3:
                 printf("\nAgregar solicitudes...\n");
+                agregar_solicitud(&solicitudes, mapa);
                 printf("Presione Enter para continuar...");
                 getchar();
                 getchar();

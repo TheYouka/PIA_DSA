@@ -228,3 +228,133 @@ int agregar_taxi(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char mapa[SIZE
     
     return 1;
 }
+
+/**
+ * Agrega una nueva solicitud de viaje
+ */
+int agregar_solicitud(Cola *solicitudes, char mapa[SIZE_MAP][SIZE_MAP]) {
+    // Verificar si hay espacio para más solicitudes
+    if (esta_llena(solicitudes)) {
+        printf("Error: No se pueden agregar más solicitudes. Máximo alcanzado (%d/%d).\n", 
+               solicitudes->cantidad, MAX_SOLICITUDES);
+        return 0;
+    }
+    
+    int x_origen, y_origen, x_destino, y_destino;
+    
+    printf("\n===== Agregar Nueva Solicitud =====\n");
+    printf("Ingrese las coordenadas de origen y destino.\n");
+    
+    // Solicitar y validar coordenadas de origen (x, y)
+    printf("\n--- Coordenadas de ORIGEN ---\n");
+    
+    // Solicitar y validar coordenada x de origen
+    do {
+        printf("Coordenada X de origen (0-%d): ", SIZE_MAP - 1);
+        if (scanf("%d", &x_origen) != 1) {
+            // Limpiar el buffer de entrada si no se ingresó un número
+            while (getchar() != '\n');
+            printf("Error: Ingrese un número válido.\n");
+            x_origen = -1;
+            continue;
+        }
+        
+        if (x_origen < 0 || x_origen >= SIZE_MAP) {
+            printf("Error: La coordenada X debe estar entre 0 y %d.\n", SIZE_MAP - 1);
+        }
+    } while (x_origen < 0 || x_origen >= SIZE_MAP);
+    
+    // Solicitar y validar coordenada y de origen
+    do {
+        printf("Coordenada Y de origen (0-%d): ", SIZE_MAP - 1);
+        if (scanf("%d", &y_origen) != 1) {
+            // Limpiar el buffer de entrada si no se ingresó un número
+            while (getchar() != '\n');
+            printf("Error: Ingrese un número válido.\n");
+            y_origen = -1;
+            continue;
+        }
+        
+        if (y_origen < 0 || y_origen >= SIZE_MAP) {
+            printf("Error: La coordenada Y debe estar entre 0 y %d.\n", SIZE_MAP - 1);
+        }
+    } while (y_origen < 0 || y_origen >= SIZE_MAP);
+    
+    // Verificar que la posición de origen sea un nodo válido
+    if (mapa[y_origen][x_origen] != 'X') {
+        printf("Error: La posición de origen (%d, %d) no es un nodo válido en el mapa.\n", x_origen, y_origen);
+        printf("El origen debe ser un nodo (marcado con 'X' en el mapa).\n");
+        return 0;
+    }
+    
+    // Solicitar y validar coordenadas de destino (x, y)
+    printf("\n--- Coordenadas de DESTINO ---\n");
+    
+    // Solicitar y validar coordenada x de destino
+    do {
+        printf("Coordenada X de destino (0-%d): ", SIZE_MAP - 1);
+        if (scanf("%d", &x_destino) != 1) {
+            // Limpiar el buffer de entrada si no se ingresó un número
+            while (getchar() != '\n');
+            printf("Error: Ingrese un número válido.\n");
+            x_destino = -1;
+            continue;
+        }
+        
+        if (x_destino < 0 || x_destino >= SIZE_MAP) {
+            printf("Error: La coordenada X debe estar entre 0 y %d.\n", SIZE_MAP - 1);
+        }
+    } while (x_destino < 0 || x_destino >= SIZE_MAP);
+    
+    // Solicitar y validar coordenada y de destino
+    do {
+        printf("Coordenada Y de destino (0-%d): ", SIZE_MAP - 1);
+        if (scanf("%d", &y_destino) != 1) {
+            // Limpiar el buffer de entrada si no se ingresó un número
+            while (getchar() != '\n');
+            printf("Error: Ingrese un número válido.\n");
+            y_destino = -1;
+            continue;
+        }
+        
+        if (y_destino < 0 || y_destino >= SIZE_MAP) {
+            printf("Error: La coordenada Y debe estar entre 0 y %d.\n", SIZE_MAP - 1);
+        }
+    } while (y_destino < 0 || y_destino >= SIZE_MAP);
+    
+    // Verificar que la posición de destino sea un nodo válido
+    if (mapa[y_destino][x_destino] != 'X') {
+        printf("Error: La posición de destino (%d, %d) no es un nodo válido en el mapa.\n", x_destino, y_destino);
+        printf("El destino debe ser un nodo (marcado con 'X' en el mapa).\n");
+        return 0;
+    }
+    
+    // Verificar que el origen y destino sean diferentes
+    if (x_origen == x_destino && y_origen == y_destino) {
+        printf("Error: El origen y el destino deben ser diferentes.\n");
+        return 0;
+    }
+    
+    // Crear nueva solicitud
+    Solicitud nueva_solicitud;
+    nueva_solicitud.x_origen = x_origen;
+    nueva_solicitud.y_origen = y_origen;
+    nueva_solicitud.x_destino = x_destino;
+    nueva_solicitud.y_destino = y_destino;
+    
+    // Determinar el ID para la nueva solicitud
+    // Usamos la cantidad actual + 1 como ID
+    nueva_solicitud.id = solicitudes->cantidad + 1;
+    
+    // Agregar la solicitud a la cola
+    if (!apilar(solicitudes, nueva_solicitud)) {
+        printf("Error: No se pudo agregar la solicitud a la cola.\n");
+        return 0;
+    }
+    
+    printf("Solicitud #%d agregada correctamente.\n", nueva_solicitud.id);
+    printf("Origen: (%d, %d), Destino: (%d, %d)\n", x_origen, y_origen, x_destino, y_destino);
+    printf("Total de solicitudes: %d/%d\n", solicitudes->cantidad, MAX_SOLICITUDES);
+    
+    return 1;
+}

@@ -52,4 +52,12 @@ void cargar_nodos(int nodos_ids[MAX_NODOS], char *nombre_archivo);
  */
 int agregar_taxi(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char mapa[SIZE_MAP][SIZE_MAP], int *taxis_totales);
 
+/**
+ * @brief Agrega una nueva solicitud de viaje
+ * @param solicitudes Cola de solicitudes
+ * @param mapa Matriz que representa el mapa
+ * @return 1 si se agregó correctamente, 0 en caso contrario
+ */
+int agregar_solicitud(Cola *solicitudes, char mapa[SIZE_MAP][SIZE_MAP]);
+
 #endif

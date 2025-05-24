@@ -151,7 +151,8 @@ void mostrar_cola(Cola *cola) {
     printf("Total de solicitudes: %d\n\n", cola->cantidad);
     
     int indice = cola->frente;
-    for (int i = 0; i < cola->cantidad; i++) {
+    int i;
+    for (i = 0; i < cola->cantidad; i++) {
         Solicitud solicitud = cola->elementos[indice];
         printf("Solicitud %d:\n", solicitud.id);
         printf("  Origen: X : %d  Y: %d\n", solicitud.x_origen, solicitud.y_origen);
@@ -211,8 +212,9 @@ int mostrar_menu_principal() {
 }
 
 void imprimir_mapa(char (*mapa)[SIZE_MAP]) {
-    for (int i = 0; i < SIZE_MAP; i++) {
-        for (int j = 0; j < SIZE_MAP; j++) {
+    int i, j;
+    for (i = 0; i < SIZE_MAP; i++) {
+        for (j = 0; j < SIZE_MAP; j++) {
             printf("%c ", mapa[i][j]);
         }
         printf("\n");
@@ -220,11 +222,12 @@ void imprimir_mapa(char (*mapa)[SIZE_MAP]) {
 }
 
 void mostrar_nodos(int *nodos_ids) {
+    int i, x, y;
     printf("\n--- NODOS DISPONIBLES ---\n");
-    for (int i = 0; i < MAX_NODOS; i++) {
+    for (i = 0; i < MAX_NODOS; i++) {
         if (nodos_ids[i] != -1) {
-            int x = nodos_ids[i] % SIZE_MAP;
-            int y = nodos_ids[i] / SIZE_MAP;
+            x = nodos_ids[i] % SIZE_MAP;
+            y = nodos_ids[i] / SIZE_MAP;
             printf("Nodo %d: (%d, %d)\n", i, x, y);
         }
     }
@@ -245,8 +248,8 @@ void absoluto_a_coords(int absolute, int *x, int *y) {
 
 int buscar_id_nodo(int nodos_ids[MAX_NODOS], int x, int y) {
     int pos_absoluta = cords_a_absoluto(x, y);
-    
-    for (int i = 0; i < MAX_NODOS; i++) {
+    int i;
+    for (i = 0; i < MAX_NODOS; i++) {
         if (nodos_ids[i] == pos_absoluta) {
             return i;
         }
@@ -259,8 +262,8 @@ int buscar_id_nodo(int nodos_ids[MAX_NODOS], int x, int y) {
 int minima_distancia(int distancias[MAX_NODOS], int visitado[MAX_NODOS]) {
     int min = INFINITO;
     int min_index = -1;
-    
-    for (int i = 0; i < MAX_NODOS; i++) {
+    int i;
+    for (i = 0; i < MAX_NODOS; i++) {
         if (visitado[i] == 0 && distancias[i] < min) {
             min = distancias[i];
             min_index = i;
@@ -272,9 +275,10 @@ int minima_distancia(int distancias[MAX_NODOS], int visitado[MAX_NODOS]) {
 
 void dijkstra(int (*calles)[MAX_NODOS], int inicio, int *distancias, int *predecesores) {
     int visitado[MAX_NODOS];
+    int i, count, u, v;
     
     // Inicializar distancias, predecesores y visitado
-    for (int i = 0; i < MAX_NODOS; i++) {
+    for (i = 0; i < MAX_NODOS; i++) {
         distancias[i] = INFINITO;
         predecesores[i] = -1;
         visitado[i] = 0;
@@ -284,9 +288,9 @@ void dijkstra(int (*calles)[MAX_NODOS], int inicio, int *distancias, int *predec
     distancias[inicio] = 0;
     
     // Encontrar el camino más corto para todos los nodos
-    for (int count = 0; count < MAX_NODOS - 1; count++) {
+    for (count = 0; count < MAX_NODOS - 1; count++) {
         // Elegir el nodo con la distancia mínima del conjunto de nodos no visitados
-        int u = minima_distancia(distancias, visitado);
+        u = minima_distancia(distancias, visitado);
         
         // Si no hay más nodos alcanzables, salir del bucle
         if (u == -1) {
@@ -297,7 +301,7 @@ void dijkstra(int (*calles)[MAX_NODOS], int inicio, int *distancias, int *predec
         visitado[u] = 1;
         
         // Actualizar las distancias de los nodos adyacentes al nodo elegido
-        for (int v = 0; v < MAX_NODOS; v++) {
+        for (v = 0; v < MAX_NODOS; v++) {
             // Actualizar distancia[v] solo si:
             // 1. Hay una arista de u a v (calles[u][v] != 0)
             // 2. v no ha sido visitado
@@ -315,8 +319,15 @@ void dijkstra(int (*calles)[MAX_NODOS], int inicio, int *distancias, int *predec
 int obtener_ruta(int (*calles)[MAX_NODOS], int *nodos_ids, 
                 int x_origen, int y_origen, int x_destino, int y_destino, 
                 int *ruta, int *longitud) {
-    int id_nodo_origen = buscar_id_nodo(nodos_ids, x_origen, y_origen);
-    int id_nodo_destino = buscar_id_nodo(nodos_ids, x_destino, y_destino);
+    int id_nodo_origen, id_nodo_destino;
+    int distancias[MAX_NODOS];
+    int predecesores[MAX_NODOS];
+    int temp_ruta[MAX_NODOS];
+    int temp_longitud = 0;
+    int actual, i;
+    
+    id_nodo_origen = buscar_id_nodo(nodos_ids, x_origen, y_origen);
+    id_nodo_destino = buscar_id_nodo(nodos_ids, x_destino, y_destino);
     
     // Si alguno de los nodos no existe, no hay ruta
     if (id_nodo_origen == -1 || id_nodo_destino == -1) {
@@ -325,8 +336,6 @@ int obtener_ruta(int (*calles)[MAX_NODOS], int *nodos_ids,
     }
     
     // Aplicar Dijkstra desde el nodo de origen
-    int distancias[MAX_NODOS];
-    int predecesores[MAX_NODOS];
     dijkstra(calles, id_nodo_origen, distancias, predecesores);
     
     // Si no hay ruta al destino
@@ -336,9 +345,7 @@ int obtener_ruta(int (*calles)[MAX_NODOS], int *nodos_ids,
     }
     
     // Reconstruir la ruta desde el destino hacia el origen
-    int temp_ruta[MAX_NODOS];
-    int temp_longitud = 0;
-    int actual = id_nodo_destino;
+    actual = id_nodo_destino;
     
     while (actual != -1) {
         temp_ruta[temp_longitud++] = actual;
@@ -347,7 +354,7 @@ int obtener_ruta(int (*calles)[MAX_NODOS], int *nodos_ids,
     
     // Invertir la ruta (de origen a destino)
     *longitud = temp_longitud;
-    for (int i = 0; i < temp_longitud; i++) {
+    for (i = 0; i < temp_longitud; i++) {
         ruta[i] = temp_ruta[temp_longitud - 1 - i];
     }
     
@@ -355,8 +362,9 @@ int obtener_ruta(int (*calles)[MAX_NODOS], int *nodos_ids,
 }
 
 void inicializar_calles(int (*calles)[MAX_NODOS]) {
-    for (int i = 0; i < MAX_NODOS; i++) {
-        for (int j = 0; j < MAX_NODOS; j++) {
+    int i, j;
+    for (i = 0; i < MAX_NODOS; i++) {
+        for (j = 0; j < MAX_NODOS; j++) {
             calles[i][j] = 0;
         }
     }
@@ -428,10 +436,10 @@ int procesar_solicitud(Taxi taxis[MAX_TAXIS], int nodos_ids[MAX_NODOS], int call
 
 int actualizar_taxis(Taxi taxis[MAX_TAXIS], int mapa_taxis[SIZE_MAP][SIZE_MAP]) {
     int taxis_completados = 0;
-    
+    int i;
     printf("\n===== Actualizando Estado de Taxis =====\n");
     
-    for (int i = 0; i < MAX_TAXIS; i++) {
+    for (i = 0; i < MAX_TAXIS; i++) {
         if (taxis[i].id == -1) continue; // Taxi no inicializado
         
         if (taxis[i].estado == 1) { // Taxi ocupado
@@ -469,8 +477,8 @@ void mostrar_info_taxis(Taxi taxis[MAX_TAXIS]) {
     
     int disponibles = 0;
     int ocupados = 0;
-    
-    for (int i = 0; i < MAX_TAXIS; i++) {
+    int i;
+    for (i = 0; i < MAX_TAXIS; i++) {
         if (taxis[i].id != -1) {
             printf("Taxi #%d: Posición (%d, %d), Estado: %s", 
                    taxis[i].id, taxis[i].x, taxis[i].y, 
@@ -530,7 +538,8 @@ void ejecutar_simulacion(Taxi *taxis, int *nodos_ids, int (*calles)[MAX_NODOS],
             
             // Verificar si todos los taxis están disponibles
             int todos_disponibles = 1;
-            for (int i = 0; i < MAX_TAXIS; i++) {
+            int i;
+            for (i = 0; i < MAX_TAXIS; i++) {
                 if (taxis[i].id != -1 && taxis[i].estado == 1) {
                     todos_disponibles = 0;
                     break;
@@ -560,7 +569,11 @@ void ejecutar_simulacion(Taxi *taxis, int *nodos_ids, int (*calles)[MAX_NODOS],
 
 /* Implementación de funciones de archivos */
 void cargar_mapa(char (*mapa)[SIZE_MAP], int *nodos_ids, int (*calles)[MAX_NODOS], const char *nombre_archivo) {
-    FILE *archivo = fopen(nombre_archivo, "r");
+    FILE *archivo;
+    int i, j, x1, y1, x2, y2, peso;
+    int id_1, id_2, pos1, pos2;
+    
+    archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
         printf("Error al abrir el archivo %s\n", nombre_archivo);
         printf("Saliendo del programa...\n");
@@ -568,22 +581,21 @@ void cargar_mapa(char (*mapa)[SIZE_MAP], int *nodos_ids, int (*calles)[MAX_NODOS
     }
 
     // Inicializar el mapa con ceros
-    for (int i = 0; i < SIZE_MAP; i++) {
-        for (int j = 0; j < SIZE_MAP; j++) {
+    for (i = 0; i < SIZE_MAP; i++) {
+        for (j = 0; j < SIZE_MAP; j++) {
             mapa[i][j] = '.';
         }
     }
-
-    int x1, y1, x2, y2, peso, id;
     
     // Leer entradas del archivo y guardar en el mapa y calles
     while (fscanf(archivo, "%d %d %d %d %d", &x1, &y1, &x2, &y2, &peso) == 5) {
-        int id_1 = -1, id_2 = -1;
-        int pos1 = y1 * SIZE_MAP + x1;
-        int pos2 = y2 * SIZE_MAP + x2;
+        id_1 = -1;
+        id_2 = -1;
+        pos1 = y1 * SIZE_MAP + x1;
+        pos2 = y2 * SIZE_MAP + x2;
 
         // Buscar los IDs correspondientes a las posiciones en nodos_ids
-        for (int i = 0; i < MAX_NODOS; i++) {
+        for (i = 0; i < MAX_NODOS; i++) {
             if (nodos_ids[i] == pos1) {
                 id_1 = i;
             }
@@ -607,7 +619,10 @@ void cargar_mapa(char (*mapa)[SIZE_MAP], int *nodos_ids, int (*calles)[MAX_NODOS
 }
 
 void cargar_taxis(Taxi *taxis, int (*mapa_taxis)[SIZE_MAP], const char *nombre_archivo, int *taxis_totales) {
-    FILE *archivo = fopen(nombre_archivo, "r");
+    FILE *archivo;
+    int i, x, y, id;
+    
+    archivo = fopen(nombre_archivo, "r");
     if (archivo == NULL) {
         printf("Error al abrir el archivo %s\n", nombre_archivo);
         printf("Saliendo del programa...\n");
@@ -615,15 +630,14 @@ void cargar_taxis(Taxi *taxis, int (*mapa_taxis)[SIZE_MAP], const char *nombre_a
     }
 
     // Inicializar el array de taxis
-    for(int i = 0; i < MAX_TAXIS; i++) {
+    for(i = 0; i < MAX_TAXIS; i++) {
         taxis[i].id = -1;
         taxis[i].x = -1;
         taxis[i].y = -1;
         taxis[i].estado = -1;
     }
 
-    int x, y;
-    int id = 1;
+    id = 1;
     
     // Leer coordenadas del archivo y cargar los taxis
     while (fscanf(archivo, "%d %d", &x, &y) == 2 && id <= MAX_TAXIS) {
@@ -676,7 +690,8 @@ void cargar_nodos(int *nodos_ids, const char *nombre_archivo) {
     }
 
     // Inicializar el array de nodos
-    for(int i = 0; i < MAX_NODOS; i++) {
+    int i;
+    for(i = 0; i < MAX_NODOS; i++) {
         nodos_ids[i] = -1;
     }
 
@@ -896,8 +911,8 @@ int encontrar_taxi_cercano(Taxi *taxis, int *nodos_ids, int (*calles)[MAX_NODOS]
     // Buscar el taxi más cercano
     int min_distancia = INFINITO;
     int id_taxi_cercano = -1;
-    
-    for (int i = 0; i < MAX_TAXIS; i++) {
+    int i;
+    for (i = 0; i < MAX_TAXIS; i++) {
         // Solo considerar taxis disponibles
         if (taxis[i].id != -1 && taxis[i].estado == 0) {
             int id_nodo_taxi = buscar_id_nodo(nodos_ids, taxis[i].x, taxis[i].y);
@@ -917,7 +932,7 @@ int encontrar_taxi_cercano(Taxi *taxis, int *nodos_ids, int (*calles)[MAX_NODOS]
 }
 
 int main() {
-    int opcion;
+    int opcion, i, j;
     // Inicializar el mapa con espacios
     char mapa[SIZE_MAP][SIZE_MAP];
 
@@ -931,8 +946,8 @@ int main() {
 
     // Array que guarda el id del taxi en cualquiera posicion del mapa
     int mapa_taxis[SIZE_MAP][SIZE_MAP];
-    for (int i = 0; i < SIZE_MAP; i++) {
-        for (int j = 0; j < SIZE_MAP; j++) {
+    for (i = 0; i < SIZE_MAP; i++) {
+        for (j = 0; j < SIZE_MAP; j++) {
             mapa_taxis[i][j] = -1;
         }
     }
@@ -953,7 +968,7 @@ int main() {
     cargar_solicitudes(&solicitudes, "data/solicitudes.txt");
     
     // Inicializar los nuevos campos de los taxis
-    for(int i = 0; i < MAX_TAXIS; i++) {
+    for(i = 0; i < MAX_TAXIS; i++) {
         if (taxis[i].id != -1) {
             taxis[i].tiempo = 0;
             taxis[i].x_destino = 0;
@@ -1004,7 +1019,7 @@ int main() {
             case 4:
                 printf("\nMostrando taxis disponibles...\n");
                 // Mostrar información de taxis
-                for (int i = 0; i < MAX_TAXIS; i++) {
+                for (i = 0; i < MAX_TAXIS; i++) {
                     if (taxis[i].id != -1) {
                         printf("Taxi #%d: Posición (%d, %d), Estado: %s\n", 
                                taxis[i].id, taxis[i].x, taxis[i].y, 

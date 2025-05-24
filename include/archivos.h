@@ -60,4 +60,10 @@ int agregar_taxi(Taxi *taxis, int mapa_taxis[SIZE_MAP][SIZE_MAP], char mapa[SIZE
  */
 int agregar_solicitud(Cola *solicitudes, char mapa[SIZE_MAP][SIZE_MAP]);
 
+/**
+ * @brief Muestra los nodos cargados en el programa
+ * @param nodos_ids Arreglo de nodos
+ */
+void mostrar_nodos(int nodos_ids[MAX_NODOS]);
+
 #endif

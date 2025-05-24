@@ -10,7 +10,7 @@
  * @param y Coordenada y
  * @return Valor absoluto calculado como y * SIZE_MAP + x
  */
-int coords_to_absolute(int x, int y);
+int cords_a_absoluto(int x, int y);
 
 /**
  * @brief Convierte un valor absoluto a coordenadas (x,y)
@@ -18,7 +18,7 @@ int coords_to_absolute(int x, int y);
  * @param x Puntero donde se almacenará la coordenada x
  * @param y Puntero donde se almacenará la coordenada y
  */
-void absolute_to_coords(int absolute, int *x, int *y);
+void absoluto_a_coords(int absolute, int *x, int *y);
 
 /**
  * @brief Busca el ID de nodo en el arreglo nodos_ids que corresponde a las coordenadas dadas

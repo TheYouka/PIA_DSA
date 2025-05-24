@@ -123,8 +123,8 @@ int main() {
                 break;
                 
             case 7:
-                printf("\nVisualizando mapa...\n");
-                imprimir_mapa(mapa);
+                printf("\nMostrando nodos...\n");
+                mostrar_nodos(nodos_ids);
                 printf("Presione Enter para continuar...");
                 getchar();
                 getchar();

@@ -11,14 +11,14 @@
 /**
  * Convierte coordenadas (x,y) a un valor absoluto
  */
-int coords_to_absolute(int x, int y) {
+int cords_a_absoluto(int x, int y) {
     return y * SIZE_MAP + x;
 }
 
 /**
  * Convierte un valor absoluto a coordenadas (x,y)
  */
-void absolute_to_coords(int absolute, int *x, int *y) {
+void absoluto_a_coords(int absolute, int *x, int *y) {
     *y = absolute / SIZE_MAP;
     *x = absolute % SIZE_MAP;
 }
@@ -27,7 +27,7 @@ void absolute_to_coords(int absolute, int *x, int *y) {
  * Busca el ID de nodo en el arreglo nodos_ids que corresponde a las coordenadas dadas
  */
 int buscar_id_nodo(int nodos_ids[MAX_NODOS], int x, int y) {
-    int pos_absoluta = coords_to_absolute(x, y);
+    int pos_absoluta = cords_a_absoluto(x, y);
     
     for (int i = 0; i < MAX_NODOS; i++) {
         if (nodos_ids[i] == pos_absoluta) {

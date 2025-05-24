@@ -366,3 +366,28 @@ int agregar_solicitud(Cola *solicitudes, char mapa[SIZE_MAP][SIZE_MAP]) {
     
     return 1;
 }
+
+/**
+ * Muestra los nodos cargados en el programa
+ */
+void mostrar_nodos(int nodos_ids[MAX_NODOS]) {
+    printf("\n===== Nodos Cargados =====\n");
+    printf("ID\tPosición (X,Y)\n");
+    printf("------------------------\n");
+    
+    int contador = 0;
+    
+    for (int i = 0; i < MAX_NODOS; i++) {
+        if (nodos_ids[i] != -1) {
+            // Convertir el ID codificado de vuelta a coordenadas X,Y
+            int y = nodos_ids[i] / SIZE_MAP;
+            int x = nodos_ids[i] % SIZE_MAP;
+            
+            printf("%d\t(%d, %d)\n", i+1, x, y);
+            contador++;
+        }
+    }
+    
+    printf("------------------------\n");
+    printf("Total de nodos: %d\n", contador);
+}
